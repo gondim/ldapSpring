@@ -3,17 +3,12 @@ package com.atlantico.prova.api.resource;
 import javax.naming.Name;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.ldap.core.DirContextAdapter;
-import org.springframework.ldap.core.LdapTemplate;
 import org.springframework.ldap.support.LdapNameBuilder;
-import org.springframework.ldap.support.LdapUtils;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -34,13 +29,14 @@ public class UserResource {
 	}
 	
 	@GetMapping("/{uid}")
-	public User getbyUid(@PathVariable String uid) {
-		return userRepository.findByUid(uid);
+	public ResponseEntity<?> getbyUid(@PathVariable String uid) {
+		User user = userRepository.findByUid(uid);
+		return user != null ? ResponseEntity.ok(user) : ResponseEntity.notFound().build();
 	}
 	
 	
 	@PostMapping
-	public void create(@RequestBody User user) {
+	public ResponseEntity<?> create(@RequestBody User user) {
 		Name dn = LdapNameBuilder
 		          .newInstance()
 		          .add("ou", "users")
@@ -49,18 +45,15 @@ public class UserResource {
 		user.setId(dn);
 		user.setNewLdap(true);
 		
-		userRepository.save(user);	
-	}
-	
-	@PutMapping("/{id}")
-	public void update(@PathVariable String uid) {
-		
+		User savedUser = userRepository.save(user);	
+		return ResponseEntity.created(null).body(savedUser);
 	}
 	
 	@DeleteMapping("/{uid}")
-	public void delete(@PathVariable String uid) {
+	public ResponseEntity<?> delete(@PathVariable String uid) {
 		User user = userRepository.findByUid(uid);
-		userRepository.delete(user);
+		if(user != null) userRepository.delete(user);
+		return ResponseEntity.ok().build();
 	}
 
 }

@@ -80,10 +80,9 @@ public class User  implements Persistable<Object>{
 	}
 
 	@Override
+	@JsonIgnore
 	public boolean isNew() {
 		return this.isNewLdap();
 	}
-
-
 
 }
