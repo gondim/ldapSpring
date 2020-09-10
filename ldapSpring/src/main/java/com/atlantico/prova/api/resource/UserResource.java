@@ -1,6 +1,7 @@
 package com.atlantico.prova.api.resource;
 
 import javax.naming.Name;
+import javax.print.attribute.standard.Severity;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -43,8 +44,7 @@ public class UserResource {
 		          .add("cn", user.getCn())
 		          .build();
 		user.setId(dn);
-		user.setNewLdap(true);
-		
+		user.setNewLdap(true);		
 		User savedUser = userRepository.save(user);	
 		return ResponseEntity.created(null).body(savedUser);
 	}
