@@ -35,7 +35,6 @@ public class UserResource {
 		return user != null ? ResponseEntity.ok(user) : ResponseEntity.notFound().build();
 	}
 	
-	
 	@PostMapping
 	public ResponseEntity<?> create(@RequestBody User user) {
 		Name dn = LdapNameBuilder
@@ -44,7 +43,7 @@ public class UserResource {
 		          .add("cn", user.getCn())
 		          .build();
 		user.setId(dn);
-		user.setNewLdap(true);		
+		user.setNewLdap(true);
 		User savedUser = userRepository.save(user);	
 		return ResponseEntity.created(null).body(savedUser);
 	}

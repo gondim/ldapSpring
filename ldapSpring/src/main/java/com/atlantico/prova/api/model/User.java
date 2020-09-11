@@ -29,9 +29,8 @@ public class User  implements Persistable<Object>{
 
 	}
 	
-	public User(Name id, String cn, String sn, String uid) {
+	public User(String cn, String sn, String uid) {
 		super();
-		this.id = id;
 		this.cn = cn;
 		this.sn = sn;
 		this.uid = uid;
