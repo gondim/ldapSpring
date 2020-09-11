@@ -26,9 +26,4 @@ public class LdapSecurity  {
         return new LdapTemplate(contextSource());
     }
     
-    @Bean
-    public LdapClient ldapClient() {
-    	return new LdapClient();
-    }
-    
 }
