@@ -1,5 +1,7 @@
 package com.atlantico.prova.api.resource;
 
+import java.util.List;
+
 import javax.naming.Name;
 import javax.print.attribute.standard.Severity;
 
@@ -17,6 +19,10 @@ import org.springframework.web.bind.annotation.RestController;
 import com.atlantico.prova.api.model.User;
 import com.atlantico.prova.api.repository.UserRepository;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiParam;
+
 @RestController
 @RequestMapping("/Users")
 public class UserResource {
@@ -25,18 +31,22 @@ public class UserResource {
 	private UserRepository userRepository;
 	
 	@GetMapping
-	public Iterable<User> list() {
-		return userRepository.findAll();
+	public List<User> list() {
+		return (List<User>) userRepository.findAll();
 	}
 	
 	@GetMapping("/{uid}")
-	public ResponseEntity<?> getbyUid(@PathVariable String uid) {
+	public ResponseEntity<?> getbyUid(
+			@ApiParam(value = "Uid from ldap", example = "marry")
+			@PathVariable String uid) {
 		User user = userRepository.findByUid(uid);
 		return user != null ? ResponseEntity.ok(user) : ResponseEntity.notFound().build();
 	}
 	
 	@PostMapping
-	public ResponseEntity<?> create(@RequestBody User user) {
+	public ResponseEntity<?> create(
+			@ApiParam(value = "data to Create ldap")
+			@RequestBody User user) {
 		Name dn = LdapNameBuilder
 		          .newInstance()
 		          .add("ou", "users")

@@ -9,16 +9,22 @@ import org.springframework.ldap.odm.annotations.Transient;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+
+@ApiModel("Users")
 @Entry(base = "ou=users", objectClasses = {"top", "person", "organizationalPerson", "inetOrgPerson"})
-public class User  implements Persistable<Object>{
+public class User implements Persistable<Object>{
         
-	    
 	@Id
 	@JsonIgnore
 	private Name id;
 	
+	@ApiModelProperty(name="cn", example = "John Doe")
 	private String cn;
+	@ApiModelProperty(name="sn", example = "Doe")
 	private String sn;
+	@ApiModelProperty(name="uid", example = "john")
 	private String uid;
 	
 	@Transient
