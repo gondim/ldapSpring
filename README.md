@@ -4,7 +4,7 @@ Api to create, list, find and delete entry from ldap service.
 
 ## Installation
 
-Set your ip or host in PATHLDAP.
+Set your ip or host in docker-compose.yml.
 
 ```Dockerfile
 - PATHLDAP=YOUR_HOST
