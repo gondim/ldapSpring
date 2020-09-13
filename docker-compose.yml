@@ -12,3 +12,11 @@ services:
       - LDAP_ORGANISATION=Company
       - LDAP_DOMAIN=techinterview.com
       - LDAP_ADMIN_PASSWORD=123456
+  apildap:
+    build:
+      context: ./ldapSpring
+      dockerfile: ./Dockerfile
+    ports:
+      - "8080:8080"
+    environment:
+      - PATHLDAP=YOUR_HOST
